@@ -25,8 +25,21 @@ body {
   cursor: pointer;
 }
 
-.white { background-color: #eee; }
-.black { background-color: #444; color: white; }
+/* Changed from white/black to blue/red */
+.white {
+  background-color: #1e3a8a; /* deep blue */
+  color: white; /* so pieces show */
+}
 
-.selected { outline: 3px solid yellow; }
-.valid { outline: 2px dashed lime; }
+.black {
+  background-color: #b91c1c; /* rich red */
+  color: white;
+}
+
+.selected {
+  outline: 3px solid yellow;
+}
+
+.valid {
+  outline: 2px dashed lime;
+}
