@@ -32,6 +32,16 @@ A fun and interactive stealth-based game where you sneak through a museum avoidi
 Escape the museum without being caught by patrolling guards.
 More levels and traps can be added in the future!
 
----
+
+## Feature	Description
+🧠 Top-Down Mode	Strategic movement on a grid, avoid cameras, hack panels, solve pressure puzzles
+🎮 Side-Scroll Mode	Platforming: jump over lasers, crouch to avoid bots, reach the exit in time
+🚨 Smart AI	Enemies patrol, detect you, and give chase in both views
+⏳ Timed Doors	Open for a few seconds, or only after solving mini challenges
+⚡ Visual FX	All animated with JS: blinking lasers, rotating cameras, detection zones
+🌀 Dynamic Transition	Level splits between modes smoothly (zoom in/out feel)
+♻️ Replayability	Every level's puzzle layout can be randomized for infinite gameplay
+
+
 
 Built with HTML5 Canvas + JavaScript.
