@@ -1,17 +1,18 @@
 body {
   font-family: sans-serif;
-  text-align: center;
   background: #222;
-  color: #fff;
+  color: white;
+  text-align: center;
+  padding: 20px;
 }
 
-#gameBoard {
+#chessboard {
   display: grid;
   grid-template-columns: repeat(8, 60px);
   grid-template-rows: repeat(8, 60px);
-  margin: 20px auto;
   width: 480px;
-  border: 4px solid #fff;
+  margin: auto;
+  border: 4px solid white;
 }
 
 .square {
@@ -24,19 +25,8 @@ body {
   cursor: pointer;
 }
 
-.white {
-  background-color: #eee;
-}
+.white { background-color: #eee; }
+.black { background-color: #444; color: white; }
 
-.black {
-  background-color: #444;
-  color: white;
-}
-
-.selected {
-  outline: 3px solid yellow;
-}
-
-.valid-move {
-  outline: 3px dashed lime;
-}
+.selected { outline: 3px solid yellow; }
+.valid { outline: 2px dashed lime; }
