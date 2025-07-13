@@ -1,6 +1,12 @@
 # Pixel-Heist
 A fun and interactive stealth-based game where you sneak through a museum avoiding guards and traps to steal the treasure and escape undetected!
 
+<img width="752" height="887" alt="Screenshot 2025-07-13 110927" src="https://github.com/user-attachments/assets/f7d43b22-2ac2-4a75-9b48-9fe8b725c12a" />
+
+<img width="795" height="910" alt="Screenshot 2025-07-13 110849" src="https://github.com/user-attachments/assets/21eb4e55-8786-4496-884b-f59468a7d5f1" />
+
+<img width="765" height="287" alt="Screenshot 2025-07-13 111024" src="https://github.com/user-attachments/assets/58541295-88ee-48d1-973c-88e2a7e8c996" />
+
 ## 🔥 Features
 - Smooth stealth movement (WASD or arrow keys)
 - Guards with patrol patterns
