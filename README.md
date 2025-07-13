@@ -7,6 +7,16 @@ A fun and interactive stealth-based game where you sneak through a museum avoidi
 - Crouch to sneak past traps
 - Collision-based detection
 - Full canvas-based rendering
+- 
+## Gameplay Features:
+Feature	Description
+WASD / Arrow keys	Move player
+Shift key	Crouch (avoid lasers / quieter steps)
+Click / E	Interact with levers or doors
+Dynamic enemies	Guards patrol randomly
+Sound alerts	Guards hear you if you move too fast
+Mini-map	Shows nearby traps or guards
+Timer	Speedrun mode (optional challenge)
 
 ## 🕹️ Controls
 - Move: `W`, `A`, `S`, `D` or `Arrow Keys`
