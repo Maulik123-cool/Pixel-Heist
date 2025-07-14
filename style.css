@@ -26,9 +26,9 @@ body {
 }
 
 /* Changed from white/black to blue/red */
-.white {
+.black {
   background-color: #1e3a8a; /* deep blue */
-  color: white; /* so pieces show */
+  color: black; /* so pieces show */
 }
 
 .black {
