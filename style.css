@@ -1,7 +1,7 @@
 body {
   font-family: sans-serif;
   background: #222;
-  color: black;
+  color: blue;
   text-align: center;
   padding: 20px;
 }
@@ -26,14 +26,14 @@ body {
 }
 
 /* Changed from white/black to blue/red */
-.black {
+.blue {
   background-color: #1e3a8a; /* deep blue */
-  color: black; /* so pieces show */
+  color: blue; /* so pieces show */
 }
 
-.black {
+.blue {
   background-color: #b91c1c; /* rich red */
-  color: white;
+  color: blue;
 }
 
 .selected {
