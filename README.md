@@ -1,5 +1,5 @@
 # Red Light & Green Light 
-ed Light, Green Light is a fun and intense web-based mini-game inspired by the hit series Squid Game. In this game, you're a player trying to reach the finish line while a creepy doll watches over you.
+Red Light, Green Light is a fun and intense web-based mini-game inspired by the hit series Squid Game. In this game, you're a player trying to reach the finish line while a creepy doll watches over you.
 
 You can only move forward when the doll says "Green Light", but the moment it turns to "Red Light", if you move even slightly, you’re caught and eliminated
 
