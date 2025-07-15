@@ -1,159 +1,94 @@
-const boardElement = document.getElementById("chessboard");
-const status = document.getElementById("status");
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-let turn = "w"; // 'w' or 'b'
-let selected = null;
-
-const pieces = {
-  wP: "♙", wR: "♖", wN: "♘", wB: "♗", wQ: "♕", wK: "♔",
-  bP: "♟", bR: "♜", bN: "♞", bB: "♝", bQ: "♛", bK: "♚"
+let player = {
+  x: 180,
+  y: 550,
+  width: 40,
+  height: 40,
+  color: "lime",
+  speed: 2
 };
 
-let board = [
-  ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-  ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
-  ["",   "",   "",   "",   "",   "",   "",   ""],
-  ["",   "",   "",   "",   "",   "",   "",   ""],
-  ["",   "",   "",   "",   "",   "",   "",   ""],
-  ["",   "",   "",   "",   "",   "",   "",   ""],
-  ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
-  ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
-];
+let gameRunning = false;
+let greenLight = false;
+let statusText = document.getElementById("status");
+let intervalId;
+let keys = {};
+let gameOver = false;
+let gameWon = false;
 
-function drawBoard() {
-  boardElement.innerHTML = "";
-  for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 8; col++) {
-      const square = document.createElement("div");
-      square.className = "square " + ((row + col) % 2 === 0 ? "white" : "black");
-      square.dataset.row = row;
-      square.dataset.col = col;
+document.addEventListener("keydown", (e) => keys[e.key] = true);
+document.addEventListener("keyup", (e) => keys[e.key] = false);
 
-      const piece = board[row][col];
-      if (piece) square.textContent = pieces[piece];
-
-      square.addEventListener("click", () => handleClick(row, col));
-      boardElement.appendChild(square);
-    }
-  }
-  status.textContent = `Turn: ${turn === "w" ? "White" : "Black"}`;
+function startGame() {
+  player.y = 550;
+  gameRunning = true;
+  gameOver = false;
+  gameWon = false;
+  statusText.textContent = "Green Light!";
+  greenLight = true;
+  intervalId = setInterval(toggleLight, 2000 + Math.random() * 2000);
+  gameLoop();
 }
 
-function handleClick(row, col) {
-  const piece = board[row][col];
+function toggleLight() {
+  greenLight = !greenLight;
+  statusText.textContent = greenLight ? "Green Light! 🟢" : "Red Light! 🔴";
+}
 
-  if (selected) {
-    const [fromRow, fromCol] = selected;
-    const movingPiece = board[fromRow][fromCol];
+function update() {
+  if (!gameRunning || gameOver || gameWon) return;
 
-    const legal = getLegalMoves(fromRow, fromCol);
-    const isLegal = legal.some(pos => pos[0] === row && pos[1] === col);
+  if ((keys["ArrowUp"] || keys["w"]) && greenLight) {
+    player.y -= player.speed;
+  } else if ((keys["ArrowUp"] || keys["w"]) && !greenLight) {
+    // Player moved during red light
+    gameOver = true;
+    gameRunning = false;
+    clearInterval(intervalId);
+    statusText.textContent = "You moved on Red Light! 💀 GAME OVER!";
+  }
 
-    if (isLegal) {
-      board[row][col] = movingPiece;
-      board[fromRow][fromCol] = "";
-      turn = turn === "w" ? "b" : "w";
-    }
-
-    selected = null;
-    drawBoard();
-  } else if (piece && piece[0] === turn) {
-    selected = [row, col];
-    drawBoard();
-    highlight(row, col);
+  if (player.y <= 20) {
+    gameWon = true;
+    gameRunning = false;
+    clearInterval(intervalId);
+    statusText.textContent = "You Win! 🏁";
   }
 }
 
-function highlight(row, col) {
-  const index = row * 8 + col;
-  boardElement.children[index].classList.add("selected");
-
-  const moves = getLegalMoves(row, col);
-  for (let [r, c] of moves) {
-    const idx = r * 8 + c;
-    boardElement.children[idx].classList.add("valid");
-  }
+function drawDoll() {
+  ctx.fillStyle = greenLight ? "green" : "red";
+  ctx.beginPath();
+  ctx.arc(200, 60, 30, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.font = "12px Arial";
+  ctx.fillText("👧", 190, 65);
 }
 
-function getLegalMoves(r, c) {
-  const piece = board[r][c];
-  if (!piece) return [];
-
-  const type = piece[1];
-  const color = piece[0];
-  const dir = color === "w" ? -1 : 1;
-  const moves = [];
-
-  const isEnemy = (r, c) => {
-    const p = board[r]?.[c];
-    return p && p[0] !== color;
-  };
-
-  if (type === "P") {
-    if (!board[r + dir]?.[c]) moves.push([r + dir, c]);
-    if ((r === 6 && color === "w") || (r === 1 && color === "b")) {
-      if (!board[r + dir * 2]?.[c]) moves.push([r + dir * 2, c]);
-    }
-    if (isEnemy(r + dir, c - 1)) moves.push([r + dir, c - 1]);
-    if (isEnemy(r + dir, c + 1)) moves.push([r + dir, c + 1]);
-  }
-
-  if (type === "R") {
-    [[1,0],[0,1],[-1,0],[0,-1]].forEach(([dr, dc]) => {
-      let nr = r + dr, nc = c + dc;
-      while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
-        if (!board[nr][nc]) moves.push([nr, nc]);
-        else {
-          if (isEnemy(nr, nc)) moves.push([nr, nc]);
-          break;
-        }
-        nr += dr;
-        nc += dc;
-      }
-    });
-  }
-
-  if (type === "N") {
-    [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]].forEach(([dr, dc]) => {
-      const nr = r + dr, nc = c + dc;
-      if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && (!board[nr][nc] || isEnemy(nr, nc))) {
-        moves.push([nr, nc]);
-      }
-    });
-  }
-
-  if (type === "K") {
-    for (let dr = -1; dr <= 1; dr++) {
-      for (let dc = -1; dc <= 1; dc++) {
-        if (dr === 0 && dc === 0) continue;
-        const nr = r + dr, nc = c + dc;
-        if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && (!board[nr][nc] || isEnemy(nr, nc))) {
-          moves.push([nr, nc]);
-        }
-      }
-    }
-  }
-
-  if (type === "B" || type === "Q") {
-    [[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([dr, dc]) => {
-      let nr = r + dr, nc = c + dc;
-      while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
-        if (!board[nr][nc]) moves.push([nr, nc]);
-        else {
-          if (isEnemy(nr, nc)) moves.push([nr, nc]);
-          break;
-        }
-        nr += dr;
-        nc += dc;
-      }
-    });
-  }
-
-  if (type === "Q") {
-    return [...moves, ...getLegalMoves(r, c).filter(move => move.length)];
-  }
-
-  return moves;
+function drawPlayer() {
+  ctx.fillStyle = player.color;
+  ctx.fillRect(player.x, player.y, player.width, player.height);
 }
 
-drawBoard();
+function drawFinishLine() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 10, canvas.width, 5);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawFinishLine();
+  drawDoll();
+  drawPlayer();
+}
+
+function gameLoop() {
+  update();
+  draw();
+  if (!gameOver && !gameWon) {
+    requestAnimationFrame(gameLoop);
+  }
+}
