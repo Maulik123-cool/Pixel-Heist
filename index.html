@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vanilla Chess Game</title>
+  <title>Red Light Green Light Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>♟️ Vanilla Chess</h1>
-  <div id="chessboard"></div>
-  <p id="status">Turn: White</p>
+  <h1>🦑 Red Light, Green Light 🟢</h1>
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+  </div>
+  <p id="status">Waiting to start...</p>
+  <button onclick="startGame()">Start Game</button>
+
   <script src="script.js"></script>
 </body>
 </html>
